@@ -23,6 +23,10 @@ async def heh(ctx, count_heh = 5):
 async def d20(ctx):
     n = random.randint(1,20)
     await ctx.send(str(n))
+@bot.command()
+async def d5(ctx):
+    n = random.randint(1,5)
+    await ctx.send(str(n))
 
 
 
