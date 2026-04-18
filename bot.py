@@ -1,31 +1,29 @@
 import discord
-from bot_logic import gen_pass, gen_emodji, flip_coin
-# A variável intents armazena as permissões do bot
+import random
+from discord.ext import commands
+
 intents = discord.Intents.default()
-# Ativar a permissão para ler o conteúdo das mensagens
 intents.message_content = True
-# Criar um bot e passar as permissões
-client = discord.Client(intents=intents)
 
-@client.event
+bot = commands.Bot(command_prefix='$', intents=intents)
+
+@bot.event
 async def on_ready():
-    print(f'Fizemos login como {client.user}')
+    print(f'Estamos logados como {bot.user}')
 
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
-    if message.content.startswith('\hello'):
-        await message.channel.send("Hello!")
-    elif message.content.startswith('\bye'):
-        await message.channel.send("\U0001f642")
-    elif message.content.startswith("\senha"):
-        await message.channel.send("sua senha é: "+ str(gen_pass(10)))
-    elif message.content.startswith("\emojir"):
-        await message.channel.send(gen_emodji())
-    elif message.content.startswith("\coinflip"):
-        await message.channel.send(flip_coin())
-    else:
-        await message.channel.send(message.content)
+@bot.command()
+async def hello(ctx):
+    await ctx.send(f'Olá! eu sou um bot {bot.user}!')
 
-client.run("seu token")
+@bot.command()
+async def heh(ctx, count_heh = 5):
+    await ctx.send("he" * count_heh)
+
+@bot.command()
+async def d20(ctx):
+    n = random.randint(1,20)
+    await ctx.send(str(n))
+
+
+
+bot.run("Seu token")
